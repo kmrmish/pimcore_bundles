@@ -1,0 +1,18 @@
+
+
+CREATE DATABASE pimcore_bundles charset=utf8mb4;
+
+SET GLOBAL innodb_file_format=Barracuda;
+ALTER DATABASE pimcore_bundles CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+SET GLOBAL innodb_large_prefix = ON;
+
+bin/console pimcore:deployment:classes-rebuild
+
+php bin/console ecommerce:indexservice:bootstrap --create-or-update-index-structure
+php bin/console ecommerce:indexservice:bootstrap --update-index
+
+php bin/console assets:install public --symlink
+
+
+grant all privileges on mydb.* to myuser@'%' identified by 'mypasswd';
+
