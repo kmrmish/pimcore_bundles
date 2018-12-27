@@ -358,5 +358,86 @@ return [
         "modificationDate" => 1481530257,
         "creationDate" => 1481530238,
         "id" => "print_backgroundimage"
+    ],
+    "MainImage1" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 400,
+                    "height" => 400
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "MainImage1",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1545912002,
+        "creationDate" => 1545911528,
+        "id" => "MainImage1"
+    ],
+    "MainImage2" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 500,
+                    "height" => 500
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "MainImage2",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1545911569,
+        "creationDate" => 1545911561,
+        "id" => "MainImage2"
+    ],
+    "MainImage3" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 400,
+                    "height" => 400
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "MainImage3",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1545911582,
+        "creationDate" => 1545911575,
+        "id" => "MainImage3"
     ]
 ];

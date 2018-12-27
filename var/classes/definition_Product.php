@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2018-12-27T11:14:06+01:00
+* Generated at: 2018-12-27T12:50:35+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -56,7 +56,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Product',
    'description' => '',
    'creationDate' => 1366282442,
-   'modificationDate' => 1545905646,
+   'modificationDate' => 1545911435,
    'userOwner' => 1,
    'userModification' => 19,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',
@@ -235,7 +235,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                   Pimcore\Model\DataObject\ClassDefinition\Layout\Fieldcontainer::__set_state(array(
                      'fieldtype' => 'fieldcontainer',
                      'labelWidth' => 100,
-                     'layout' => 'hbox',
+                     'layout' => 'vbox',
                      'fieldLabel' => '',
                      'name' => 'Field Container',
                      'type' => NULL,
@@ -264,7 +264,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                           'hotspots' => 'text',
                         ),
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
-                         'width' => 400,
+                         'width' => 300,
                          'height' => 200,
                          'uploadPath' => '',
                          'ratioX' => NULL,
@@ -299,7 +299,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                           'hotspots' => 'text',
                         ),
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
-                         'width' => 400,
+                         'width' => 300,
                          'height' => 200,
                          'uploadPath' => '',
                          'ratioX' => NULL,
@@ -312,7 +312,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'noteditable' => true,
                          'index' => false,
                          'locked' => false,
-                         'style' => 'margin-left:10px',
+                         'style' => '',
                          'permissions' => NULL,
                          'datatype' => 'data',
                          'relationType' => false,
