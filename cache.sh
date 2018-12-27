@@ -1,4 +1,5 @@
-sudo rm -rf var/cache/ var/session/
+sudo rm -rf var/cache/ var/sessions/
+sudo chown -Rf mukeshkumar:mukeshkumar .
 sudo chmod -R 777 .
 php bin/console cache:clear
 #bin/console pimcore:deployment:classes-rebuild

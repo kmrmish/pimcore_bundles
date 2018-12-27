@@ -36,5 +36,25 @@ return [
         "creationDate" => "1482529188",
         "modificationDate" => "1516888691",
         "id" => 4
+    ],
+    5 => [
+        "id" => 5,
+        "name" => "MainImageDimensions",
+        "language" => "",
+        "type" => "object",
+        "data" => 12479,
+        "siteId" => 0,
+        "creationDate" => 0,
+        "modificationDate" => 1545905139
+    ],
+    6 => [
+        "id" => 6,
+        "name" => "GalaryImageDimensions",
+        "language" => "",
+        "type" => "object",
+        "data" => 12480,
+        "siteId" => 0,
+        "creationDate" => 0,
+        "modificationDate" => 1545905148
     ]
 ];

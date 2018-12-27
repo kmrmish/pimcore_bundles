@@ -1,0 +1,5 @@
+class_fields_image:
+    resource: "@ClassFieldsImageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
