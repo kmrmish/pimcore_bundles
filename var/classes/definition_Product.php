@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2018-12-27T12:50:35+01:00
+* Generated at: 2018-12-27T14:42:11+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -56,7 +56,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Product',
    'description' => '',
    'creationDate' => 1366282442,
-   'modificationDate' => 1545911435,
+   'modificationDate' => 1545918131,
    'userOwner' => 1,
    'userModification' => 19,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',
@@ -161,7 +161,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'fieldtype' => 'image',
                          'width' => 200,
                          'height' => 200,
-                         'uploadPath' => '',
+                         'uploadPath' => '/Main',
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
@@ -185,7 +185,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'fieldtype' => 'image',
                          'width' => 200,
                          'height' => 200,
-                         'uploadPath' => '',
+                         'uploadPath' => '/Main',
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
@@ -193,7 +193,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'title' => 'Main Image2',
                          'tooltip' => '',
                          'mandatory' => false,
-                         'noteditable' => true,
+                         'noteditable' => false,
                          'index' => false,
                          'locked' => false,
                          'style' => 'margin-left:10px',
@@ -209,7 +209,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'fieldtype' => 'image',
                          'width' => 200,
                          'height' => 200,
-                         'uploadPath' => '',
+                         'uploadPath' => '/Main',
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
@@ -217,7 +217,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'title' => 'Main Image3',
                          'tooltip' => '',
                          'mandatory' => false,
-                         'noteditable' => true,
+                         'noteditable' => false,
                          'index' => false,
                          'locked' => false,
                          'style' => 'margin-left:10px',
@@ -266,7 +266,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
                          'width' => 300,
                          'height' => 200,
-                         'uploadPath' => '',
+                         'uploadPath' => '/Gallary',
                          'ratioX' => NULL,
                          'ratioY' => NULL,
                          'predefinedDataTemplates' => '',
@@ -301,7 +301,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
                          'width' => 300,
                          'height' => 200,
-                         'uploadPath' => '',
+                         'uploadPath' => '/Gallary',
                          'ratioX' => NULL,
                          'ratioY' => NULL,
                          'predefinedDataTemplates' => '',
@@ -309,7 +309,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'title' => 'Image Gallary2',
                          'tooltip' => 'Image Gallary2',
                          'mandatory' => false,
-                         'noteditable' => true,
+                         'noteditable' => false,
                          'index' => false,
                          'locked' => false,
                          'style' => '',

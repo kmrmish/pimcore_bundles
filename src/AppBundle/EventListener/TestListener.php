@@ -19,38 +19,27 @@ use AppBundle\Model\DefaultProduct;
 
 class TestListener
 {
-
-
-
     /**
      * @param DataObjectEvent $event
      */
     public function onObjectPreUpdate(DataObjectEvent $event)
     {
-
         if ($event instanceof DataObjectEvent) {
             $object = $event->getObject(); 
             if($object instanceof DefaultProduct){
             	$mainImage = $object->getMainImage();
             	if($mainImage){ 
-            		if($mainImage->getThumbnail("MainImage1")->getAsset()){
-            			$obj = $mainImage->getThumbnail("MainImage1")->getAsset();
-            			$obj->save();
-            			$object->setMainImage($obj);	
+            		if($mainImage->getThumbnail("MainImage1")){
+            			$object->setMainImage($this->createThumbnail($mainImage,'MainImage1'));	
             		}
 
-					if($mainImage->getThumbnail("MainImage2")->getAsset()){
-						$obj = $mainImage->getThumbnail("MainImage2")->getAsset();
-            			$obj->save();
-            			$object->setMainImage2($obj);	
+					if($mainImage->getThumbnail("MainImage2")){
+						$object->setMainImage2($this->createThumbnail($mainImage,'MainImage2'));
             		}
 
-            		if($mainImage->getThumbnail("MainImage3")->getAsset()){
-            			$obj = $mainImage->getThumbnail("MainImage3")->getAsset();
-            			$obj->save();
-            			$object->setMainImage3($obj);	
-            		}            		
-            		
+            		if($mainImage->getThumbnail("MainImage3")){
+            			$object->setMainImage3($this->createThumbnail($mainImage,'MainImage3'));
+            		}
             	}
 
             	$imageGallary = $object->getImageGallary();
@@ -61,5 +50,32 @@ class TestListener
             
         }
 
+    }
+
+
+    public function createThumbnail($image, $thumbnailName)
+    {
+    	$parent = $image->getParent();
+    	
+    	/* check if current thumbnail image exists or not */
+    	if(strpos($image->getfilename(), $thumbnailName) !== false){
+    		$thumbName = $image->getfilename();
+    	} else {
+    		$thumbName = $thumbnailName.'-'.$image->getfilename();	
+    	}
+    	
+    	/* if image already exits, delete the image first and then upload */
+		$thumbPath = $image->getThumbnail($thumbnailName)->getFileSystemPath();
+		$thumbTreePath = $parent->getPath().$thumbName;
+		$thumbObj = \Pimcore\Model\Asset::getByPath($thumbTreePath);
+		
+		/* uploading the image */
+		$newAsset = new \Pimcore\Model\Asset();
+		$newAsset->setFilename($thumbName);
+		$newAsset->setData(file_get_contents($thumbPath));
+		$newAsset->setParent($parent);
+		$thumbObj->delete();
+		$newAsset->save();
+		return $newAsset;
     }
 }
