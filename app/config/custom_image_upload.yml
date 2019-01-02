@@ -1,0 +1,13 @@
+parameters:
+    MainImageFields:
+        MainImage:
+            thumbnail: MainImage1
+        MainImage2:
+            thumbnail: MainImage2
+        MainImage3:
+            thumbnail: MainImage3
+    ImageGallaryFields:
+        ImageGallary:
+            thumbnail: ImageGallary1
+        ImageGallary2:
+            thumbnail: ImageGallary2

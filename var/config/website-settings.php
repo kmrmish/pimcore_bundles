@@ -37,24 +37,24 @@ return [
         "modificationDate" => "1516888691",
         "id" => 4
     ],
-    5 => [
-        "id" => 5,
-        "name" => "MainImageDimensions",
+    7 => [
+        "id" => 7,
+        "name" => "productMainImageUploads",
         "language" => "",
-        "type" => "object",
-        "data" => 12479,
+        "type" => "asset",
+        "data" => 4892,
         "siteId" => 0,
         "creationDate" => 0,
-        "modificationDate" => 1545905139
+        "modificationDate" => 1546431867
     ],
-    6 => [
-        "id" => 6,
-        "name" => "GalaryImageDimensions",
+    8 => [
+        "id" => 8,
+        "name" => "productImageGallaryUploads",
         "language" => "",
-        "type" => "object",
-        "data" => 12480,
+        "type" => "asset",
+        "data" => 4893,
         "siteId" => 0,
         "creationDate" => 0,
-        "modificationDate" => 1545905148
+        "modificationDate" => 1546431872
     ]
 ];

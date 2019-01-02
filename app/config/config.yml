@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: 'local/' }
     - { resource: workflow.yml }
+    - { resource:  custom_image_upload.yml }
 
 
 #### TRANSLATIONS
