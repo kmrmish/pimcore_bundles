@@ -13,9 +13,10 @@ php bin/console ecommerce:indexservice:bootstrap --update-index
 
 php bin/console assets:install public --symlink
 
-
 grant all privileges on mydb.* to myuser@'%' identified by 'mypasswd';
 
+tar -xvzf community_images.tar.gz
+gunzip -k file.gz
 
 
 Create a new bundle : -----------------------------------------
@@ -25,6 +26,3 @@ remove cache and give chmod and chown permissions
 go to src/ClassFields/ImageBundle/Resources/public/js/pimcore/startup.js
 and uncomment the alert line. 
 now reload the instance and check if alert comes
-
-
-

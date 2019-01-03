@@ -3,7 +3,7 @@
 
 # symfony default
 /.web-server-pid
-/app/config/parameters.yml
+#/app/config/parameters.yml
 /build/
 /phpunit.xml
 /web/bundles/
@@ -12,7 +12,7 @@
 # local config
 /.env
 !/app/config/local
-/app/config/local/*
+#/app/config/local/*
 !app/config/local/.gitkeep
 
 # pimcore legacy (remove this for your own development)
@@ -24,16 +24,16 @@
 /var/*
 !/var/.gitkeep
 !/var/classes/
-/var/classes/DataObject
+#/var/classes/DataObject
 
 !/var/config
-/var/config/system.php
+#/var/config/system.php
 /var/config/debug-mode.php
 /var/config/maintenance.php
 
 # project specific recommendations
 /var/config/tag-manager.php
-/var/config/reports.php
+#/var/config/reports.php
 
 
 #/web/var/
