@@ -71,28 +71,6 @@ return [
         "filenameSuffix" => NULL,
         "id" => "galleryCarousel"
     ],
-    "galleryThumbnail" => [
-        "items" => [
-            [
-                "method" => "cover",
-                "arguments" => [
-                    "width" => "260",
-                    "height" => "180",
-                    "positioning" => "center",
-                    "doNotScaleUp" => "1"
-                ]
-            ]
-        ],
-        "medias" => [
-
-        ],
-        "description" => "",
-        "format" => "SOURCE",
-        "quality" => 90,
-        "highResolution" => 0,
-        "filenameSuffix" => NULL,
-        "id" => "galleryThumbnail"
-    ],
     "galleryCarouselPreview" => [
         "items" => [
             [
@@ -439,5 +417,59 @@ return [
         "modificationDate" => 1545911582,
         "creationDate" => 1545911575,
         "id" => "MainImage3"
+    ],
+    "ImageGallary1" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 400,
+                    "height" => 400
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "ImageGallary1",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1546607096,
+        "creationDate" => 1546607087,
+        "id" => "ImageGallary1"
+    ],
+    "ImageGallary2" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 500,
+                    "height" => 500
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "ImageGallary2",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1546607110,
+        "creationDate" => 1546607102,
+        "id" => "ImageGallary2"
     ]
 ];

@@ -40,27 +40,41 @@ class TestListener
                         $thumbnail = $thumbnailArray['thumbnail'];
                         $setter = 'set'.$field;
                         if($mainImage->getThumbnail($thumbnail)){
-                            $newImage = $this->createThumbnail($mainImage,$thumbnail, $productMainImagesFolder);
+                            $newImage = $this->createThumbnail($mainImage,$thumbnail, $productMainImagesFolder, $object);
                             if($newImage){
                                 $object->$setter($newImage);
                             }
-
                         }
                     }
             	}
 
             	$imageGallary = $object->getImageGallary();
-//            	if($imageGallary){
-//                    foreach ($imageGallaryUploadConfig as $field => $thumbnail){
-//                        $setter = 'set'.$field;
-//                        if($imageGallary->getThumbnail($thumbnail)){
-//                            $newImage = $this->createThumbnail($imageGallary,$thumbnail, $productImageGallaryUploads);
-//                            if($newImage){
-//                                $object->$setter($newImage);
-//                            }
-//                        }
-//                    }
-//            	}
+           		if(count($imageGallary->getItems()) && end($imageGallary->getItems())){
+           			$currentImage = end($imageGallary->getItems())->getImage();
+           			if($currentImage){
+	           			foreach ($imageGallaryUploadConfig as $field => $thumbnailArray){
+	           				$thumbnail = $thumbnailArray['thumbnail'];
+	                       $setter = 'set'.$field;
+	                       $getter = 'get'.$field;
+	                       if($currentImage->getThumbnail($thumbnail)){
+	                           $newImage = $this->createThumbnail($currentImage,$thumbnail, $productImageGallaryUploads, $object);
+	                           if($newImage){
+	                                $imageCollection = $object->$getter();
+	                                $imageCollectionArray = $imageCollection->getItems();
+	                                if($field == 'ImageGallary'){ 
+	                                	array_pop($imageCollectionArray);
+	                                }
+
+	                                $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
+   									$advancedImage->setImage($newImage);
+	                                $imageCollectionArray[] = $advancedImage;
+	                                $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
+	                           }
+	                       }
+	                    }
+           			}
+                   
+           		}
             }
             
         }
@@ -68,7 +82,7 @@ class TestListener
     }
 
 
-    public function createThumbnail($image, $thumbnailName, $parent)
+    public function createThumbnail($image, $thumbnailName, $parent, $object)
     {
         $currentImageParent = $image->getParent();
         if($currentImageParent != $parent){
@@ -77,17 +91,17 @@ class TestListener
 
             /* if image already exits, delete the image first and then upload */
             $thumbPath = $image->getThumbnail($thumbnailName)->getFileSystemPath();
-            $thumbTreePath = $parent->getPath().$thumbName;
+            $thumbTreePath = $parent->getFullPath().'/'.$thumbName;
             $thumbObj = \Pimcore\Model\Asset::getByPath($thumbTreePath);
             if(!$thumbObj){
                 /* uploading the image */
-                $newAsset = new \Pimcore\Model\Asset();
-                $newAsset->setFilename($thumbName);
-                $newAsset->setData(file_get_contents($thumbPath));
-                $newAsset->setParent($parent);
-                $newAsset->save();
+                $thumbObj = new \Pimcore\Model\Asset();
+                $thumbObj->setFilename($thumbName);
+                $thumbObj->setData(file_get_contents($thumbPath));
+                $thumbObj->setParent($parent);
+                $thumbObj->save();
             }
-            return $newAsset;
+            return $thumbObj;
         }
         return false;
 
