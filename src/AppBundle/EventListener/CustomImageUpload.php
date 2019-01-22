@@ -36,14 +36,13 @@ class CustomImageUpload
         }
     }
 
-    /* function to create custom gallery images from gallery field as per configuration*/
+    
     public function createCustomImages($object, $uploadField, $thumbConfigKey, $parentFolderKey){
         $uploadFieldGetter = 'get'.$uploadField;
         $container = \Pimcore::getContainer();
         if($container->hasParameter($thumbConfigKey)){
             $thumbConfig = $container->getParameter($thumbConfigKey);
             $imageUploadsFolder = $this->getParentFolder($parentFolderKey);
-            /* current set of gallary images after droping image in gallary field */
             $currentImage = $object->$uploadFieldGetter();
             $object = $this->getConfiguredImages($object, $currentImage, $thumbConfig, $imageUploadsFolder);
         }
@@ -52,20 +51,30 @@ class CustomImageUpload
     }
 
     public function getConfiguredImages($object, $currentImage, $thumbConfig, $imageUploadsFolder){
-        if($this->isImageUploaded($currentImage)){
-            $currentUploadedImage = $this->getCurrentUploadedImage($currentImage);
-            foreach ($thumbConfig as $field => $thumbnailArray){
-               $thumbnail = $thumbnailArray['thumbnail'];
-               $setter = 'set'.$field;
-               if($currentUploadedImage->getThumbnail($thumbnail)){
-                    $object = $this->createAndSetCustomImages($currentImage, $object, $setter, $thumbnail, $imageUploadsFolder);
-               }
-            }
+        if($this->isImageUploadedNotEmpty($currentImage)){
+            $object = $this->createAllThumbnails($thumbConfig, $object, $currentImage);
         } else {
-            foreach ($thumbConfig as $field => $thumbnailArray){
-                $setter = 'set'.$field;
-                $object = $this->deleteThumbnail($currentImage, $object, $setter);
-            }
+            $object = $this->deleteAllThumbails($thumbConfig, $object, $currentImage);
+        }
+        return $object;
+    }
+
+    public function createAllThumbnails($thumbConfig, $object, $currentImage){
+        $currentUploadedImage = $this->getCurrentUploadedImage($currentImage);
+        foreach ($thumbConfig as $field => $thumbnailArray){
+           $thumbnail = $thumbnailArray['thumbnail'];
+           $setter = 'set'.$field;
+           if($currentUploadedImage->getThumbnail($thumbnail)){
+                $object = $this->createAndSetCustomImages($currentImage, $object, $setter, $thumbnail, $imageUploadsFolder);
+           }
+        }
+        return $object;
+    }
+
+    public function deleteAllThumbails($thumbConfig, $object, $currentImage){
+        foreach ($thumbConfig as $field => $thumbnailArray){
+            $setter = 'set'.$field;
+            $object = $this->deleteThumbnail($currentImage, $object, $setter);
         }
         return $object;
     }
@@ -73,7 +82,7 @@ class CustomImageUpload
     public function deleteThumbnail($currentImage, $object, $setter){
         if($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery){
             $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery(array()));    
-        } else {
+        } else if($currentImage instanceof \Pimcore\Model\Asset\Image){
             $object->$setter('');
         }
         return $object;
@@ -88,7 +97,7 @@ class CustomImageUpload
         return $currentUploadedImage;
     }
 
-    public function isImageUploaded($currentImage)
+    public function isImageUploadedNotEmpty($currentImage)
     {
         $imageUploadFlag = false;
         if($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery && count($currentImage->getItems()) && end($currentImage->getItems())->getImage()){
@@ -112,8 +121,6 @@ class CustomImageUpload
             $thumbTreePath = $parent->getFullPath().'/'.$thumbName;
             $thumbObj = \Pimcore\Model\Asset::getByPath($thumbTreePath);
             if(!$thumbObj){
-                
-                /* uploading the image */
                 $thumbObj = new \Pimcore\Model\Asset();
                 $thumbObj->setFilename($thumbName);
                 $thumbObj->setData(file_get_contents($thumbPath));
