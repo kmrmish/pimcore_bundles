@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2018-12-27T14:42:11+01:00
+* Generated at: 2019-01-22T11:01:59+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -9,11 +9,13 @@
 
 
 Fields Summary: 
-- MainImage [image]
-- MainImage2 [image]
-- MainImage3 [image]
-- ImageGallary [imageGallery]
-- ImageGallary2 [imageGallery]
+- main [image]
+- main1 [image]
+- main2 [image]
+- main3 [image]
+- gallery [imageGallery]
+- gallery1 [imageGallery]
+- gallery2 [imageGallery]
 - localizedfields [localizedfields]
 -- name [input]
 -- seoname [input]
@@ -56,7 +58,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Product',
    'description' => '',
    'creationDate' => 1366282442,
-   'modificationDate' => 1545918131,
+   'modificationDate' => 1548151318,
    'userOwner' => 1,
    'userModification' => 19,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',
@@ -165,7 +167,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
-                         'name' => 'MainImage',
+                         'name' => 'main',
                          'title' => 'Main Image',
                          'tooltip' => 'Main Image',
                          'mandatory' => false,
@@ -185,15 +187,15 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'fieldtype' => 'image',
                          'width' => 200,
                          'height' => 200,
-                         'uploadPath' => '/Main',
+                         'uploadPath' => '',
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
-                         'name' => 'MainImage2',
-                         'title' => 'Main Image2',
+                         'name' => 'main1',
+                         'title' => 'Main 1',
                          'tooltip' => '',
                          'mandatory' => false,
-                         'noteditable' => false,
+                         'noteditable' => true,
                          'index' => false,
                          'locked' => false,
                          'style' => 'margin-left:10px',
@@ -213,11 +215,35 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                          'queryColumnType' => 'int(11)',
                          'columnType' => 'int(11)',
                          'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
-                         'name' => 'MainImage3',
-                         'title' => 'Main Image3',
+                         'name' => 'main2',
+                         'title' => 'Main 2',
                          'tooltip' => '',
                          'mandatory' => false,
-                         'noteditable' => false,
+                         'noteditable' => true,
+                         'index' => false,
+                         'locked' => false,
+                         'style' => 'margin-left:10px',
+                         'permissions' => NULL,
+                         'datatype' => 'data',
+                         'relationType' => false,
+                         'invisible' => false,
+                         'visibleGridView' => false,
+                         'visibleSearch' => false,
+                      )),
+                      3 => 
+                      Pimcore\Model\DataObject\ClassDefinition\Data\Image::__set_state(array(
+                         'fieldtype' => 'image',
+                         'width' => 200,
+                         'height' => 200,
+                         'uploadPath' => '/Main',
+                         'queryColumnType' => 'int(11)',
+                         'columnType' => 'int(11)',
+                         'phpdocType' => '\\Pimcore\\Model\\Asset\\Image',
+                         'name' => 'main3',
+                         'title' => 'Main 3',
+                         'tooltip' => '',
+                         'mandatory' => false,
+                         'noteditable' => true,
                          'index' => false,
                          'locked' => false,
                          'style' => 'margin-left:10px',
@@ -264,15 +290,15 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                           'hotspots' => 'text',
                         ),
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
-                         'width' => 300,
+                         'width' => 200,
                          'height' => 200,
-                         'uploadPath' => '/Gallary',
+                         'uploadPath' => '',
                          'ratioX' => NULL,
                          'ratioY' => NULL,
                          'predefinedDataTemplates' => '',
-                         'name' => 'ImageGallary',
-                         'title' => 'Image Gallary',
-                         'tooltip' => 'Image Gallary',
+                         'name' => 'gallery',
+                         'title' => 'Gallery',
+                         'tooltip' => '',
                          'mandatory' => false,
                          'noteditable' => false,
                          'index' => false,
@@ -299,17 +325,52 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                           'hotspots' => 'text',
                         ),
                          'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
-                         'width' => 300,
+                         'width' => 200,
                          'height' => 200,
                          'uploadPath' => '/Gallary',
                          'ratioX' => NULL,
                          'ratioY' => NULL,
                          'predefinedDataTemplates' => '',
-                         'name' => 'ImageGallary2',
-                         'title' => 'Image Gallary2',
+                         'name' => 'gallery1',
+                         'title' => 'Gallery 1',
+                         'tooltip' => 'Image Gallary',
+                         'mandatory' => false,
+                         'noteditable' => true,
+                         'index' => false,
+                         'locked' => false,
+                         'style' => '',
+                         'permissions' => NULL,
+                         'datatype' => 'data',
+                         'relationType' => false,
+                         'invisible' => false,
+                         'visibleGridView' => false,
+                         'visibleSearch' => false,
+                      )),
+                      2 => 
+                      Pimcore\Model\DataObject\ClassDefinition\Data\ImageGallery::__set_state(array(
+                         'fieldtype' => 'imageGallery',
+                         'queryColumnType' => 
+                        array (
+                          'images' => 'text',
+                          'hotspots' => 'text',
+                        ),
+                         'columnType' => 
+                        array (
+                          'images' => 'text',
+                          'hotspots' => 'text',
+                        ),
+                         'phpdocType' => '\\Pimcore\\Model\\DataObject\\Data\\ImageGallery',
+                         'width' => 200,
+                         'height' => 200,
+                         'uploadPath' => '/Gallary',
+                         'ratioX' => NULL,
+                         'ratioY' => NULL,
+                         'predefinedDataTemplates' => '',
+                         'name' => 'gallery2',
+                         'title' => 'Gallary2',
                          'tooltip' => 'Image Gallary2',
                          'mandatory' => false,
-                         'noteditable' => false,
+                         'noteditable' => true,
                          'index' => false,
                          'locked' => false,
                          'style' => '',

@@ -1,13 +1,13 @@
 parameters:
     MainImageFields:
-        MainImage:
-            thumbnail: MainImage1
-        MainImage2:
-            thumbnail: MainImage2
-        MainImage3:
-            thumbnail: MainImage3
+        main1:
+            thumbnail: main1
+        main2:
+            thumbnail: main2
+        main3:
+            thumbnail: main3
     ImageGallaryFields:
-        ImageGallary:
-            thumbnail: ImageGallary1
-        ImageGallary2:
-            thumbnail: ImageGallary2
+        gallery1:
+            thumbnail: gallery1
+        gallery2:
+            thumbnail: gallery2

@@ -337,7 +337,7 @@ return [
         "creationDate" => 1481530238,
         "id" => "print_backgroundimage"
     ],
-    "MainImage1" => [
+    "main1" => [
         "items" => [
             [
                 "method" => "resize",
@@ -350,7 +350,7 @@ return [
         "medias" => [
 
         ],
-        "name" => "MainImage1",
+        "name" => "main1",
         "description" => "",
         "group" => "",
         "format" => "SOURCE",
@@ -360,24 +360,24 @@ return [
         "preserveMetaData" => FALSE,
         "rasterizeSVG" => FALSE,
         "downloadable" => FALSE,
-        "modificationDate" => 1545912002,
-        "creationDate" => 1545911528,
-        "id" => "MainImage1"
+        "modificationDate" => 1548148319,
+        "creationDate" => 1548147730,
+        "id" => "main1"
     ],
-    "MainImage2" => [
+    "main2" => [
         "items" => [
             [
                 "method" => "resize",
                 "arguments" => [
-                    "width" => 500,
-                    "height" => 500
+                    "width" => 200,
+                    "height" => 200
                 ]
             ]
         ],
         "medias" => [
 
         ],
-        "name" => "MainImage2",
+        "name" => "main2",
         "description" => "",
         "group" => "",
         "format" => "SOURCE",
@@ -387,11 +387,38 @@ return [
         "preserveMetaData" => FALSE,
         "rasterizeSVG" => FALSE,
         "downloadable" => FALSE,
-        "modificationDate" => 1545911569,
-        "creationDate" => 1545911561,
-        "id" => "MainImage2"
+        "modificationDate" => 1548148314,
+        "creationDate" => 1548148296,
+        "id" => "main2"
     ],
-    "MainImage3" => [
+    "main3" => [
+        "items" => [
+            [
+                "method" => "resize",
+                "arguments" => [
+                    "width" => 350,
+                    "height" => 350
+                ]
+            ]
+        ],
+        "medias" => [
+
+        ],
+        "name" => "main3",
+        "description" => "",
+        "group" => "",
+        "format" => "SOURCE",
+        "quality" => 85,
+        "highResolution" => 0.0,
+        "preserveColor" => FALSE,
+        "preserveMetaData" => FALSE,
+        "rasterizeSVG" => FALSE,
+        "downloadable" => FALSE,
+        "modificationDate" => 1548148337,
+        "creationDate" => 1548148327,
+        "id" => "main3"
+    ],
+    "gallery1" => [
         "items" => [
             [
                 "method" => "resize",
@@ -404,7 +431,7 @@ return [
         "medias" => [
 
         ],
-        "name" => "MainImage3",
+        "name" => "gallery1",
         "description" => "",
         "group" => "",
         "format" => "SOURCE",
@@ -414,24 +441,24 @@ return [
         "preserveMetaData" => FALSE,
         "rasterizeSVG" => FALSE,
         "downloadable" => FALSE,
-        "modificationDate" => 1545911582,
-        "creationDate" => 1545911575,
-        "id" => "MainImage3"
+        "modificationDate" => 1548148362,
+        "creationDate" => 1548148351,
+        "id" => "gallery1"
     ],
-    "ImageGallary1" => [
+    "gallery2" => [
         "items" => [
             [
                 "method" => "resize",
                 "arguments" => [
-                    "width" => 400,
-                    "height" => 400
+                    "width" => 300,
+                    "height" => 300
                 ]
             ]
         ],
         "medias" => [
 
         ],
-        "name" => "ImageGallary1",
+        "name" => "gallery2",
         "description" => "",
         "group" => "",
         "format" => "SOURCE",
@@ -441,35 +468,8 @@ return [
         "preserveMetaData" => FALSE,
         "rasterizeSVG" => FALSE,
         "downloadable" => FALSE,
-        "modificationDate" => 1546607096,
-        "creationDate" => 1546607087,
-        "id" => "ImageGallary1"
-    ],
-    "ImageGallary2" => [
-        "items" => [
-            [
-                "method" => "resize",
-                "arguments" => [
-                    "width" => 500,
-                    "height" => 500
-                ]
-            ]
-        ],
-        "medias" => [
-
-        ],
-        "name" => "ImageGallary2",
-        "description" => "",
-        "group" => "",
-        "format" => "SOURCE",
-        "quality" => 85,
-        "highResolution" => 0.0,
-        "preserveColor" => FALSE,
-        "preserveMetaData" => FALSE,
-        "rasterizeSVG" => FALSE,
-        "downloadable" => FALSE,
-        "modificationDate" => 1546607110,
-        "creationDate" => 1546607102,
-        "id" => "ImageGallary2"
+        "modificationDate" => 1548148379,
+        "creationDate" => 1548148369,
+        "id" => "gallery2"
     ]
 ];

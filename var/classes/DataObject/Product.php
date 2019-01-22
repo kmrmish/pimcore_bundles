@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2018-12-27T14:42:11+01:00
+* Generated at: 2019-01-22T11:01:59+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -9,11 +9,13 @@
 
 
 Fields Summary: 
-- MainImage [image]
-- MainImage2 [image]
-- MainImage3 [image]
-- ImageGallary [imageGallery]
-- ImageGallary2 [imageGallery]
+- main [image]
+- main1 [image]
+- main2 [image]
+- main3 [image]
+- gallery [imageGallery]
+- gallery1 [imageGallery]
+- gallery2 [imageGallery]
 - localizedfields [localizedfields]
 -- name [input]
 -- seoname [input]
@@ -55,11 +57,13 @@ namespace Pimcore\Model\DataObject;
 
 
 /**
-* @method static \Pimcore\Model\DataObject\Product\Listing getByMainImage ($value, $limit = 0) 
-* @method static \Pimcore\Model\DataObject\Product\Listing getByMainImage2 ($value, $limit = 0) 
-* @method static \Pimcore\Model\DataObject\Product\Listing getByMainImage3 ($value, $limit = 0) 
-* @method static \Pimcore\Model\DataObject\Product\Listing getByImageGallary ($value, $limit = 0) 
-* @method static \Pimcore\Model\DataObject\Product\Listing getByImageGallary2 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByMain ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByMain1 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByMain2 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByMain3 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByGallery ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByGallery1 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByGallery2 ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByLocalizedfields ($field, $value, $locale = null, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByArtno ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByEan ($value, $limit = 0) 
@@ -91,11 +95,13 @@ use \Pimcore\Model\DataObject\Traits\DirtyIndicatorTrait;
 
 protected $o_classId = "12";
 protected $o_className = "Product";
-protected $MainImage;
-protected $MainImage2;
-protected $MainImage3;
-protected $ImageGallary;
-protected $ImageGallary2;
+protected $main;
+protected $main1;
+protected $main2;
+protected $main3;
+protected $gallery;
+protected $gallery1;
+protected $gallery2;
 protected $localizedfields;
 protected $artno;
 protected $ean;
@@ -128,17 +134,17 @@ public static function create($values = array()) {
 }
 
 /**
-* Get MainImage - Main Image
+* Get main - Main Image
 * @return \Pimcore\Model\Asset\Image
 */
-public function getMainImage () {
-	$preValue = $this->preGetValue("MainImage"); 
+public function getMain () {
+	$preValue = $this->preGetValue("main"); 
 	if($preValue !== null && !\Pimcore::inAdmin()) { 
 		return $preValue;
 	}
-	$data = $this->MainImage;
-	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("MainImage")->isEmpty($data)) {
-		return $this->getValueFromParent("MainImage");
+	$data = $this->main;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("main")->isEmpty($data)) {
+		return $this->getValueFromParent("main");
 	}
 	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
 		    return $data->getPlain();
@@ -147,28 +153,28 @@ public function getMainImage () {
 }
 
 /**
-* Set MainImage - Main Image
-* @param \Pimcore\Model\Asset\Image $MainImage
+* Set main - Main Image
+* @param \Pimcore\Model\Asset\Image $main
 * @return \Pimcore\Model\DataObject\Product
 */
-public function setMainImage ($MainImage) {
-	$fd = $this->getClass()->getFieldDefinition("MainImage");
-	$this->MainImage = $MainImage;
+public function setMain ($main) {
+	$fd = $this->getClass()->getFieldDefinition("main");
+	$this->main = $main;
 	return $this;
 }
 
 /**
-* Get MainImage2 - Main Image2
+* Get main1 - Main 1
 * @return \Pimcore\Model\Asset\Image
 */
-public function getMainImage2 () {
-	$preValue = $this->preGetValue("MainImage2"); 
+public function getMain1 () {
+	$preValue = $this->preGetValue("main1"); 
 	if($preValue !== null && !\Pimcore::inAdmin()) { 
 		return $preValue;
 	}
-	$data = $this->MainImage2;
-	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("MainImage2")->isEmpty($data)) {
-		return $this->getValueFromParent("MainImage2");
+	$data = $this->main1;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("main1")->isEmpty($data)) {
+		return $this->getValueFromParent("main1");
 	}
 	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
 		    return $data->getPlain();
@@ -177,28 +183,28 @@ public function getMainImage2 () {
 }
 
 /**
-* Set MainImage2 - Main Image2
-* @param \Pimcore\Model\Asset\Image $MainImage2
+* Set main1 - Main 1
+* @param \Pimcore\Model\Asset\Image $main1
 * @return \Pimcore\Model\DataObject\Product
 */
-public function setMainImage2 ($MainImage2) {
-	$fd = $this->getClass()->getFieldDefinition("MainImage2");
-	$this->MainImage2 = $MainImage2;
+public function setMain1 ($main1) {
+	$fd = $this->getClass()->getFieldDefinition("main1");
+	$this->main1 = $main1;
 	return $this;
 }
 
 /**
-* Get MainImage3 - Main Image3
+* Get main2 - Main 2
 * @return \Pimcore\Model\Asset\Image
 */
-public function getMainImage3 () {
-	$preValue = $this->preGetValue("MainImage3"); 
+public function getMain2 () {
+	$preValue = $this->preGetValue("main2"); 
 	if($preValue !== null && !\Pimcore::inAdmin()) { 
 		return $preValue;
 	}
-	$data = $this->MainImage3;
-	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("MainImage3")->isEmpty($data)) {
-		return $this->getValueFromParent("MainImage3");
+	$data = $this->main2;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("main2")->isEmpty($data)) {
+		return $this->getValueFromParent("main2");
 	}
 	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
 		    return $data->getPlain();
@@ -207,28 +213,58 @@ public function getMainImage3 () {
 }
 
 /**
-* Set MainImage3 - Main Image3
-* @param \Pimcore\Model\Asset\Image $MainImage3
+* Set main2 - Main 2
+* @param \Pimcore\Model\Asset\Image $main2
 * @return \Pimcore\Model\DataObject\Product
 */
-public function setMainImage3 ($MainImage3) {
-	$fd = $this->getClass()->getFieldDefinition("MainImage3");
-	$this->MainImage3 = $MainImage3;
+public function setMain2 ($main2) {
+	$fd = $this->getClass()->getFieldDefinition("main2");
+	$this->main2 = $main2;
 	return $this;
 }
 
 /**
-* Get ImageGallary - Image Gallary
+* Get main3 - Main 3
+* @return \Pimcore\Model\Asset\Image
+*/
+public function getMain3 () {
+	$preValue = $this->preGetValue("main3"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { 
+		return $preValue;
+	}
+	$data = $this->main3;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("main3")->isEmpty($data)) {
+		return $this->getValueFromParent("main3");
+	}
+	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
+		    return $data->getPlain();
+	}
+	return $data;
+}
+
+/**
+* Set main3 - Main 3
+* @param \Pimcore\Model\Asset\Image $main3
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setMain3 ($main3) {
+	$fd = $this->getClass()->getFieldDefinition("main3");
+	$this->main3 = $main3;
+	return $this;
+}
+
+/**
+* Get gallery - Gallery
 * @return \Pimcore\Model\DataObject\Data\ImageGallery
 */
-public function getImageGallary () {
-	$preValue = $this->preGetValue("ImageGallary"); 
+public function getGallery () {
+	$preValue = $this->preGetValue("gallery"); 
 	if($preValue !== null && !\Pimcore::inAdmin()) { 
 		return $preValue;
 	}
-	$data = $this->ImageGallary;
-	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("ImageGallary")->isEmpty($data)) {
-		return $this->getValueFromParent("ImageGallary");
+	$data = $this->gallery;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("gallery")->isEmpty($data)) {
+		return $this->getValueFromParent("gallery");
 	}
 	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
 		    return $data->getPlain();
@@ -237,28 +273,28 @@ public function getImageGallary () {
 }
 
 /**
-* Set ImageGallary - Image Gallary
-* @param \Pimcore\Model\DataObject\Data\ImageGallery $ImageGallary
+* Set gallery - Gallery
+* @param \Pimcore\Model\DataObject\Data\ImageGallery $gallery
 * @return \Pimcore\Model\DataObject\Product
 */
-public function setImageGallary ($ImageGallary) {
-	$fd = $this->getClass()->getFieldDefinition("ImageGallary");
-	$this->ImageGallary = $ImageGallary;
+public function setGallery ($gallery) {
+	$fd = $this->getClass()->getFieldDefinition("gallery");
+	$this->gallery = $gallery;
 	return $this;
 }
 
 /**
-* Get ImageGallary2 - Image Gallary2
+* Get gallery1 - Gallery 1
 * @return \Pimcore\Model\DataObject\Data\ImageGallery
 */
-public function getImageGallary2 () {
-	$preValue = $this->preGetValue("ImageGallary2"); 
+public function getGallery1 () {
+	$preValue = $this->preGetValue("gallery1"); 
 	if($preValue !== null && !\Pimcore::inAdmin()) { 
 		return $preValue;
 	}
-	$data = $this->ImageGallary2;
-	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("ImageGallary2")->isEmpty($data)) {
-		return $this->getValueFromParent("ImageGallary2");
+	$data = $this->gallery1;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("gallery1")->isEmpty($data)) {
+		return $this->getValueFromParent("gallery1");
 	}
 	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
 		    return $data->getPlain();
@@ -267,13 +303,43 @@ public function getImageGallary2 () {
 }
 
 /**
-* Set ImageGallary2 - Image Gallary2
-* @param \Pimcore\Model\DataObject\Data\ImageGallery $ImageGallary2
+* Set gallery1 - Gallery 1
+* @param \Pimcore\Model\DataObject\Data\ImageGallery $gallery1
 * @return \Pimcore\Model\DataObject\Product
 */
-public function setImageGallary2 ($ImageGallary2) {
-	$fd = $this->getClass()->getFieldDefinition("ImageGallary2");
-	$this->ImageGallary2 = $ImageGallary2;
+public function setGallery1 ($gallery1) {
+	$fd = $this->getClass()->getFieldDefinition("gallery1");
+	$this->gallery1 = $gallery1;
+	return $this;
+}
+
+/**
+* Get gallery2 - Gallary2
+* @return \Pimcore\Model\DataObject\Data\ImageGallery
+*/
+public function getGallery2 () {
+	$preValue = $this->preGetValue("gallery2"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { 
+		return $preValue;
+	}
+	$data = $this->gallery2;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("gallery2")->isEmpty($data)) {
+		return $this->getValueFromParent("gallery2");
+	}
+	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
+		    return $data->getPlain();
+	}
+	return $data;
+}
+
+/**
+* Set gallery2 - Gallary2
+* @param \Pimcore\Model\DataObject\Data\ImageGallery $gallery2
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setGallery2 ($gallery2) {
+	$fd = $this->getClass()->getFieldDefinition("gallery2");
+	$this->gallery2 = $gallery2;
 	return $this;
 }
 

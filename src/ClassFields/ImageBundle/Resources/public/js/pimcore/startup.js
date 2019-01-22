@@ -10,7 +10,7 @@ pimcore.plugin.ClassFieldsImageBundle = Class.create(pimcore.plugin.admin, {
     },
 
     pimcoreReady: function (params, broker) {
-         alert("ClassFieldsImageBundle ready!");
+         //alert("ClassFieldsImageBundle ready!");
     }
 });
 
