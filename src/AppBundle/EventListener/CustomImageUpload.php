@@ -30,94 +30,74 @@ class CustomImageUpload
         	/* current product object */
             $object = $event->getObject(); 
             if($object instanceof DefaultProduct){
-                $container = \Pimcore::getContainer();
-
-                /* from custom_image_upload.yml: mapping of main images fields and their respective thumbnail names  */
-                $mainImageUploadConfig = $container->getParameter('MainImageFields');
-
-                /* from custom_image_upload.yml: mapping of gallary fields and their respective thumbnail names  */
-                $imageGallaryUploadConfig = $container->getParameter('ImageGallaryFields');
-
-                /* asset folder for saving all the main images after creating them */
-                $productMainImagesFolder = Config::getWebsiteConfig()->get('productMainImageUploads');
-                if(!$productImageGallaryUploads){
-                	$productImageGallaryUploads = \Pimcore\Model\Asset::getByPath("/");
-                }
-
-                /* asset folder for saving all the gallary images after creating them */
-                $productImageGallaryUploads = Config::getWebsiteConfig()->get('productImageGallaryUploads');
-                if(!$productImageGallaryUploads){
-                	$productImageGallaryUploads = \Pimcore\Model\Asset::getByPath("/");
-                }
-
-                /* currently uploaded main image */
-                $mainImage = $object->getMain();
-            	if($mainImage){
-            		/* tracing all the main image fields */
-                    foreach ($mainImageUploadConfig as $field => $thumbnailArray){
-                        $thumbnail = $thumbnailArray['thumbnail'];
-                        $setter = 'set'.$field;
-                        $getter = 'get'.$field;
-                        $currentMainImage = $object->$getter();
-                        if($currentMainImage){
-                            $currentMainImage->delete();
-                        }
-
-                        if($mainImage->getThumbnail($thumbnail)){
-                
-                        	/* creating new image as per corresponding thumbnail configuration */
-                            $newImage = $this->createThumbnail($mainImage,$thumbnail, $productMainImagesFolder, $object);
-                            if($newImage){
-                            	/* saving the image in product's respective main image field */
-                                $object->$setter($newImage);
-                            }
-                        }
-                    }
-            	} else {
-                    foreach ($mainImageUploadConfig as $field => $thumbnailArray){
-                        $setter = 'set'.$field;
-                        $object->$setter('');
-                    }
-                    
-                }
-
-				/* current set of gallary images after droping image in gallary field */
-            	$imageGallary = $object->getGallery();
-           		if(count($imageGallary->getItems()) && end($imageGallary->getItems())->getImage()){
-                    //p_r(end($imageGallary->getItems()));die;
-           			/* currently uploaded gallary image */
-           			$currentImage = end($imageGallary->getItems())->getImage();
-           			if($currentImage){
-           				/* tracing all the image gallary fields */
-	           			foreach ($imageGallaryUploadConfig as $field => $thumbnailArray){
-	           			     $thumbnail = $thumbnailArray['thumbnail'];
-	                       $setter = 'set'.$field;
-	                       $getter = 'get'.$field;
-	                       if($currentImage->getThumbnail($thumbnail)){
-	                           $imageCollectionArray = array();
-                               foreach ($imageGallary->getItems() as $key => $galleryItem) {
-                                   $newImage = $this->createThumbnail($galleryItem->getImage(),$thumbnail, $productImageGallaryUploads, $object);
-                                   $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
-                                        $advancedImage->setImage($newImage);
-                                    $imageCollectionArray[] = $advancedImage;
-                               }
-                               $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
-	                       }
-	                    }
-           			}
-                   
-           		} else {
-                    foreach ($imageGallaryUploadConfig as $field => $thumbnailArray){
-                        $setter = 'set'.$field;
-                         $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery(array()));
-                    }
-                }
+                $object = $this->createCustomImages($object,'main','MainImageFields','productMainImageUploads');
+                $object = $this->createCustomImages($object,'gallery','ImageGallaryFields','productImageGallaryUploads');   
             }
-            
         }
-
     }
 
+    /* function to create custom gallery images from gallery field as per configuration*/
+    public function createCustomImages($object, $uploadField, $thumbConfigKey, $parentFolderKey){
+        $uploadFieldGetter = 'get'.$uploadField;
+        $container = \Pimcore::getContainer();
+        if($container->hasParameter($thumbConfigKey)){
+            $thumbConfig = $container->getParameter($thumbConfigKey);
+            $imageUploadsFolder = $this->getParentFolder($parentFolderKey);
+            /* current set of gallary images after droping image in gallary field */
+            $currentImage = $object->$uploadFieldGetter();
+            $object = $this->getConfiguredImages($object, $currentImage, $thumbConfig, $imageUploadsFolder);
+        }
+
+        return $object;
+    }
+
+    public function getConfiguredImages($object, $currentImage, $thumbConfig, $imageUploadsFolder){
+        if($this->isImageUploaded($currentImage)){
+            $currentUploadedImage = $this->getCurrentUploadedImage($currentImage);
+            foreach ($thumbConfig as $field => $thumbnailArray){
+               $thumbnail = $thumbnailArray['thumbnail'];
+               $setter = 'set'.$field;
+               if($currentUploadedImage->getThumbnail($thumbnail)){
+                    $object = $this->createAndSetCustomImages($currentImage, $object, $setter, $thumbnail, $imageUploadsFolder);
+               }
+            }
+        } else {
+            foreach ($thumbConfig as $field => $thumbnailArray){
+                $setter = 'set'.$field;
+                $object = $this->deleteThumbnail($currentImage, $object, $setter);
+            }
+        }
+        return $object;
+    }
+
+    public function deleteThumbnail($currentImage, $object, $setter){
+        if($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery){
+            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery(array()));    
+        } else {
+            $object->$setter('');
+        }
+        return $object;
+    }
+
+    public function getCurrentUploadedImage($currentImage){
+        if($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery){
+            $currentUploadedImage = end($currentImage->getItems())->getImage();  
+        } else if($currentImage instanceof \Pimcore\Model\Asset\Image){
+            $currentUploadedImage = $currentImage;
+        }
+        return $currentUploadedImage;
+    }
+
+    public function isImageUploaded($currentImage)
+    {
+        $imageUploadFlag = false;
+        if($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery && count($currentImage->getItems()) && end($currentImage->getItems())->getImage()){
+            $imageUploadFlag = true;
+        } else if($currentImage instanceof \Pimcore\Model\Asset\Image){
+            $imageUploadFlag = true;
+        }
+        return $imageUploadFlag;
+    }
 
     public function createThumbnail($image, $thumbnailName, $parent, $object)
     {
@@ -144,5 +124,37 @@ class CustomImageUpload
         }
         return false;
 
+    }
+
+
+    public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail, $parentFolder){
+        if($uploadedImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery){
+            $imageCollectionArray = array();
+            foreach ($uploadedImage->getItems() as $key => $galleryItem) {
+                $newImage = $this->createThumbnail($galleryItem->getImage(),$thumbnail, $parentFolder, $object);
+                $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
+                $advancedImage->setImage($newImage);
+                $imageCollectionArray[] = $advancedImage;
+            }
+            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
+        } else if($uploadedImage instanceof \Pimcore\Model\Asset\Image){
+            /* creating new image as per corresponding thumbnail configuration */
+            $newImage = $this->createThumbnail($uploadedImage,$thumbnail, $parentFolder, $object);
+            if($newImage){
+                /* saving the image in product's respective main image field */
+                $object->$setter($newImage);
+            }
+        }
+        return $object;
+    }
+
+
+
+    public function getParentFolder($key){
+        $uploadFolder = Config::getWebsiteConfig()->get($key);
+        if(!$uploadFolder){
+            $uploadFolder = \Pimcore\Model\Asset::getByPath("/");
+        }
+        return $uploadFolder;
     }
 }

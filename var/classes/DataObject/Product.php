@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2019-01-22T11:01:59+01:00
+* Generated at: 2019-01-22T11:39:13+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -134,7 +134,7 @@ public static function create($values = array()) {
 }
 
 /**
-* Get main - Main Image
+* Get main - Main
 * @return \Pimcore\Model\Asset\Image
 */
 public function getMain () {
@@ -153,7 +153,7 @@ public function getMain () {
 }
 
 /**
-* Set main - Main Image
+* Set main - Main
 * @param \Pimcore\Model\Asset\Image $main
 * @return \Pimcore\Model\DataObject\Product
 */
@@ -314,7 +314,7 @@ public function setGallery1 ($gallery1) {
 }
 
 /**
-* Get gallery2 - Gallary2
+* Get gallery2 - Gallary 2
 * @return \Pimcore\Model\DataObject\Data\ImageGallery
 */
 public function getGallery2 () {
@@ -333,7 +333,7 @@ public function getGallery2 () {
 }
 
 /**
-* Set gallery2 - Gallary2
+* Set gallery2 - Gallary 2
 * @param \Pimcore\Model\DataObject\Data\ImageGallery $gallery2
 * @return \Pimcore\Model\DataObject\Product
 */
