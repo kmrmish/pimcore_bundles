@@ -22,3 +22,23 @@ services:
 #            - "@service_id"
 #            - "plain_value"
 #            - "%parameter%"
+    # Example event listener for objects
+    # ClassFields\ImageBundle\EventListener\CustomImageUpload:
+    #     tags:
+    #         - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onObjectPreUpdate }
+
+
+parameters:
+    CustomImageUploadClass : 'AppBundle\Model\DefaultProduct'
+    MainImageFields:
+        main1:
+            thumbnail: main1
+        main2:
+            thumbnail: main2
+        main3:
+            thumbnail: main3
+    ImageGallaryFields:
+        gallery1:
+            thumbnail: gallery1
+        gallery2:
+            thumbnail: gallery2

@@ -1,4 +1,5 @@
 parameters:
+    CustomImageUploadClass : 'AppBundle\Model\DefaultProduct'
     MainImageFields:
         main1:
             thumbnail: main1

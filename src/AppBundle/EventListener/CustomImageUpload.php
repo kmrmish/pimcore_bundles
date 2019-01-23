@@ -21,11 +21,14 @@ use AppBundle\Model\DefaultProduct;
 
 class CustomImageUpload
 {
-    public static $uploadField;
+   public static $uploadField;
     
     public static $thumbConfigKey;
     
     public static $parentFolderKey;
+
+    public static $customImageUploadClass = 'CustomImageUploadClass';
+
     /**
      * @param DataObjectEvent $event
      */
@@ -34,10 +37,15 @@ class CustomImageUpload
         if ($event instanceof DataObjectEvent) {
             /* current product object */
             $object = $event->getObject();
-            if ($object instanceof DefaultProduct) {
-                $object = $this->createCustomImages($object, 'main', 'MainImageFields', 'productMainImageUploads');
-                $object = $this->createCustomImages($object, 'gallery', 'ImageGallaryFields', 'productImageGallaryUploads');
+            $container = \Pimcore::getContainer();
+            if($container->hasParameter(self::$customImageUploadClass)){
+                $CustomImageUploadClass = $container->getParameter(self::$customImageUploadClass);
+                if ($object instanceof $CustomImageUploadClass) {
+                    $object = $this->createCustomImages($object, 'main', 'MainImageFields', 'productMainImageUploads');
+                    $object = $this->createCustomImages($object, 'gallery', 'ImageGallaryFields', 'productImageGallaryUploads');
+                }
             }
+            
         }
     }
     
@@ -46,9 +54,9 @@ class CustomImageUpload
     {
         $container = \Pimcore::getContainer();
         if ($container->hasParameter($thumbConfigKey)) {
-            $this->uploadField     = $uploadField;
-            $this->thumbConfigKey  = $thumbConfigKey;
-            $this->parentFolderKey = $parentFolderKey;
+            self::$uploadField     = $uploadField;
+            self::$thumbConfigKey  = $thumbConfigKey;
+            self::$parentFolderKey = $parentFolderKey;
             $object                = $this->getConfiguredImages($object);
         }
         
@@ -57,7 +65,7 @@ class CustomImageUpload
     
     public function getConfiguredImages($object)
     {
-        $uploadFieldGetter = 'get' . $this->uploadField;
+        $uploadFieldGetter = 'get' . self::$uploadField;
         $currentImage      = $object->$uploadFieldGetter();
         if ($this->isImageUploadedNotEmpty($currentImage)) {
             $object = $this->createAllThumbnails($object, $currentImage);
@@ -70,7 +78,7 @@ class CustomImageUpload
     public function createAllThumbnails($object, $currentImage)
     {
         $container            = \Pimcore::getContainer();
-        $thumbConfig          = $container->getParameter($this->thumbConfigKey);
+        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
         $currentUploadedImage = $this->getCurrentUploadedImage($currentImage);
         foreach ($thumbConfig as $field => $thumbnailArray) {
             $thumbnail = $thumbnailArray['thumbnail'];
@@ -82,8 +90,10 @@ class CustomImageUpload
         return $object;
     }
     
-    public function deleteAllThumbails($thumbConfig, $object, $currentImage)
+    public function deleteAllThumbails($object, $currentImage)
     {
+        $container            = \Pimcore::getContainer();
+        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
         foreach ($thumbConfig as $field => $thumbnailArray) {
             $object = $this->deleteThumbnail($currentImage, $object, $field);
         }
@@ -127,7 +137,7 @@ class CustomImageUpload
     public function createThumbnail($image, $thumbnailName, $object)
     {
         $currentImageParent = $image->getParent();
-        $parent             = $this->getParentFolder($this->parentFolderKey);
+        $parent             = $this->getParentFolder(self::$parentFolderKey);
         if ($currentImageParent != $parent) {
             /* check if current thumbnail image exists or not */
             $thumbName = $thumbnailName . '-' . $image->getfilename();
