@@ -21,7 +21,7 @@ use AppBundle\Model\DefaultProduct;
 
 class CustomImageUpload
 {
-   public static $uploadField;
+    public static $uploadField;
     
     public static $thumbConfigKey;
     
@@ -42,13 +42,12 @@ class CustomImageUpload
                 $CustomImageUploadClass = $container->getParameter(self::$customImageUploadClass);
                 if ($object instanceof $CustomImageUploadClass) {
                     $object = $this->createCustomImages($object, 'main', 'MainImageFields', 'productMainImageUploads');
-                    $object = $this->createCustomImages($object, 'gallery', 'ImageGallaryFields', 'productImageGallaryUploads');
+                    $object = $this->createCustomImages($object, 'gallery', 'ImageGalleryFields', 'productImageGallaryUploads');
                 }
             }
             
         }
     }
-    
     
     public function createCustomImages($object, $uploadField, $thumbConfigKey, $parentFolderKey)
     {
@@ -89,52 +88,8 @@ class CustomImageUpload
         }
         return $object;
     }
-    
-    public function deleteAllThumbails($object, $currentImage)
-    {
-        $container            = \Pimcore::getContainer();
-        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
-        foreach ($thumbConfig as $field => $thumbnailArray) {
-            $object = $this->deleteThumbnail($currentImage, $object, $field);
-        }
-        return $object;
-    }
-    
-    public function deleteThumbnail($currentImage, $object, $field)
-    {
-        $setter             = 'set' . $field;
-        $getter             = 'get' . $field;
-        $currentCustomImage = $object->$getter();
-        if ($currentCustomImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
-            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery(array()));
-        } else if ($currentCustomImage instanceof \Pimcore\Model\Asset\Image) {
-            $object->$setter('');
-        }
-        return $object;
-    }
-    
-    public function getCurrentUploadedImage($currentImage)
-    {
-        if ($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
-            $currentUploadedImage = end($currentImage->getItems())->getImage();
-        } else if ($currentImage instanceof \Pimcore\Model\Asset\Image) {
-            $currentUploadedImage = $currentImage;
-        }
-        return $currentUploadedImage;
-    }
-    
-    public function isImageUploadedNotEmpty($currentImage)
-    {
-        $imageUploadFlag = false;
-        if ($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery && count($currentImage->getItems()) && end($currentImage->getItems())->getImage()) {
-            $imageUploadFlag = true;
-        } else if ($currentImage instanceof \Pimcore\Model\Asset\Image) {
-            $imageUploadFlag = true;
-        }
-        return $imageUploadFlag;
-    }
-    
-    public function createThumbnail($image, $thumbnailName, $object)
+
+    public function createThumbnail($image, $thumbnailName)
     {
         $currentImageParent = $image->getParent();
         $parent             = $this->getParentFolder(self::$parentFolderKey);
@@ -158,14 +113,13 @@ class CustomImageUpload
         return false;
         
     }
-    
-    
+
     public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail)
     {
         if ($uploadedImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
             $imageCollectionArray = array();
             foreach ($uploadedImage->getItems() as $key => $galleryItem) {
-                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail, $object);
+                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail);
                 $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
                 $advancedImage->setImage($newImage);
                 $imageCollectionArray[] = $advancedImage;
@@ -173,7 +127,7 @@ class CustomImageUpload
             $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
         } else if ($uploadedImage instanceof \Pimcore\Model\Asset\Image) {
             /* creating new image as per corresponding thumbnail configuration */
-            $newImage = $this->createThumbnail($uploadedImage, $thumbnail, $object);
+            $newImage = $this->createThumbnail($uploadedImage, $thumbnail);
             if ($newImage) {
                 /* saving the image in product's respective main image field */
                 $object->$setter($newImage);
@@ -182,7 +136,49 @@ class CustomImageUpload
         return $object;
     }
     
+    public function deleteAllThumbails($object, $currentImage)
+    {
+        $container            = \Pimcore::getContainer();
+        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
+        foreach ($thumbConfig as $field => $thumbnailArray) {
+            $object = $this->deleteThumbnail($currentImage, $object, $field);
+        }
+        return $object;
+    }
     
+    public function deleteThumbnail($currentImage, $object, $field)
+    {
+        $setter             = 'set' . $field;
+        $getter             = 'get' . $field;
+        $currentCustomImage = $object->$getter();
+        if ($currentCustomImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
+            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery(array()));
+        } else if ($currentCustomImage instanceof \Pimcore\Model\Asset\Image) {
+            $object->$setter('');
+        }
+        return $object;
+    }
+
+    public function getCurrentUploadedImage($currentImage)
+    {
+        if ($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
+            $currentUploadedImage = end($currentImage->getItems())->getImage();
+        } else if ($currentImage instanceof \Pimcore\Model\Asset\Image) {
+            $currentUploadedImage = $currentImage;
+        }
+        return $currentUploadedImage;
+    }
+    
+    public function isImageUploadedNotEmpty($currentImage)
+    {
+        $imageUploadFlag = false;
+        if ($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery && count($currentImage->getItems()) && end($currentImage->getItems())->getImage()) {
+            $imageUploadFlag = true;
+        } else if ($currentImage instanceof \Pimcore\Model\Asset\Image) {
+            $imageUploadFlag = true;
+        }
+        return $imageUploadFlag;
+    }
     
     public function getParentFolder($key)
     {
@@ -193,3 +189,4 @@ class CustomImageUpload
         return $uploadFolder;
     }
 }
+

@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2019-01-22T11:39:13+01:00
+* Generated at: 2019-01-24T11:51:28+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -16,6 +16,10 @@ Fields Summary:
 - gallery [imageGallery]
 - gallery1 [imageGallery]
 - gallery2 [imageGallery]
+- CdnPathsMain [fieldcollections]
+- CdnPathsMainInheritance [select]
+- CdnPathsGallery [fieldcollections]
+- CdnPathsGalleryInheritance [select]
 - localizedfields [localizedfields]
 -- name [input]
 -- seoname [input]
@@ -64,6 +68,10 @@ namespace Pimcore\Model\DataObject;
 * @method static \Pimcore\Model\DataObject\Product\Listing getByGallery ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByGallery1 ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByGallery2 ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByCdnPathsMain ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByCdnPathsMainInheritance ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByCdnPathsGallery ($value, $limit = 0) 
+* @method static \Pimcore\Model\DataObject\Product\Listing getByCdnPathsGalleryInheritance ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByLocalizedfields ($field, $value, $locale = null, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByArtno ($value, $limit = 0) 
 * @method static \Pimcore\Model\DataObject\Product\Listing getByEan ($value, $limit = 0) 
@@ -102,6 +110,10 @@ protected $main3;
 protected $gallery;
 protected $gallery1;
 protected $gallery2;
+protected $CdnPathsMain;
+protected $CdnPathsMainInheritance;
+protected $CdnPathsGallery;
+protected $CdnPathsGalleryInheritance;
 protected $localizedfields;
 protected $artno;
 protected $ean;
@@ -340,6 +352,108 @@ public function getGallery2 () {
 public function setGallery2 ($gallery2) {
 	$fd = $this->getClass()->getFieldDefinition("gallery2");
 	$this->gallery2 = $gallery2;
+	return $this;
+}
+
+/**
+* @return \Pimcore\Model\DataObject\Fieldcollection
+*/
+public function getCdnPathsMain () {
+	$preValue = $this->preGetValue("CdnPathsMain"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { return $preValue;}
+	$data = $this->getClass()->getFieldDefinition("CdnPathsMain")->preGetData($this);
+	 return $data;
+}
+
+/**
+* Set CdnPathsMain - CdnPaths of Main
+* @param \Pimcore\Model\DataObject\Fieldcollection $CdnPathsMain
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setCdnPathsMain ($CdnPathsMain) {
+	$fd = $this->getClass()->getFieldDefinition("CdnPathsMain");
+	$this->CdnPathsMain = $fd->preSetData($this, $CdnPathsMain);
+	return $this;
+}
+
+/**
+* Get CdnPathsMainInheritance - Cdn Paths Inheritance (Main)
+* @return string
+*/
+public function getCdnPathsMainInheritance () {
+	$preValue = $this->preGetValue("CdnPathsMainInheritance"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { 
+		return $preValue;
+	}
+	$data = $this->CdnPathsMainInheritance;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("CdnPathsMainInheritance")->isEmpty($data)) {
+		return $this->getValueFromParent("CdnPathsMainInheritance");
+	}
+	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
+		    return $data->getPlain();
+	}
+	return $data;
+}
+
+/**
+* Set CdnPathsMainInheritance - Cdn Paths Inheritance (Main)
+* @param string $CdnPathsMainInheritance
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setCdnPathsMainInheritance ($CdnPathsMainInheritance) {
+	$fd = $this->getClass()->getFieldDefinition("CdnPathsMainInheritance");
+	$this->CdnPathsMainInheritance = $CdnPathsMainInheritance;
+	return $this;
+}
+
+/**
+* @return \Pimcore\Model\DataObject\Fieldcollection
+*/
+public function getCdnPathsGallery () {
+	$preValue = $this->preGetValue("CdnPathsGallery"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { return $preValue;}
+	$data = $this->getClass()->getFieldDefinition("CdnPathsGallery")->preGetData($this);
+	 return $data;
+}
+
+/**
+* Set CdnPathsGallery - Cdn Paths of Gallery
+* @param \Pimcore\Model\DataObject\Fieldcollection $CdnPathsGallery
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setCdnPathsGallery ($CdnPathsGallery) {
+	$fd = $this->getClass()->getFieldDefinition("CdnPathsGallery");
+	$this->CdnPathsGallery = $fd->preSetData($this, $CdnPathsGallery);
+	return $this;
+}
+
+/**
+* Get CdnPathsGalleryInheritance - Cdn Paths Inheritance (Gallery)
+* @return string
+*/
+public function getCdnPathsGalleryInheritance () {
+	$preValue = $this->preGetValue("CdnPathsGalleryInheritance"); 
+	if($preValue !== null && !\Pimcore::inAdmin()) { 
+		return $preValue;
+	}
+	$data = $this->CdnPathsGalleryInheritance;
+	if(\Pimcore\Model\DataObject::doGetInheritedValues() && $this->getClass()->getFieldDefinition("CdnPathsGalleryInheritance")->isEmpty($data)) {
+		return $this->getValueFromParent("CdnPathsGalleryInheritance");
+	}
+	if ($data instanceof \Pimcore\Model\DataObject\Data\EncryptedField) {
+		    return $data->getPlain();
+	}
+	return $data;
+}
+
+/**
+* Set CdnPathsGalleryInheritance - Cdn Paths Inheritance (Gallery)
+* @param string $CdnPathsGalleryInheritance
+* @return \Pimcore\Model\DataObject\Product
+*/
+public function setCdnPathsGalleryInheritance ($CdnPathsGalleryInheritance) {
+	$fd = $this->getClass()->getFieldDefinition("CdnPathsGalleryInheritance");
+	$this->CdnPathsGalleryInheritance = $CdnPathsGalleryInheritance;
 	return $this;
 }
 
@@ -1395,14 +1509,16 @@ protected static $_relationFields = array (
 );
 
 protected $lazyLoadedFields = array (
-  0 => 'brand',
-  1 => 'features',
-  2 => 'technologies',
-  3 => 'attributes',
-  4 => 'collection',
-  5 => 'materialComposition',
-  6 => 'secondaryMaterialComposition',
-  7 => 'relatedProducts',
+  0 => 'CdnPathsMain',
+  1 => 'CdnPathsGallery',
+  2 => 'brand',
+  3 => 'features',
+  4 => 'technologies',
+  5 => 'attributes',
+  6 => 'collection',
+  7 => 'materialComposition',
+  8 => 'secondaryMaterialComposition',
+  9 => 'relatedProducts',
 );
 
 }

@@ -7,7 +7,7 @@ parameters:
             thumbnail: main2
         main3:
             thumbnail: main3
-    ImageGallaryFields:
+    ImageGalleryFields:
         gallery1:
             thumbnail: gallery1
         gallery2:

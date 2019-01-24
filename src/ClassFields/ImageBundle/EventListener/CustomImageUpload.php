@@ -42,13 +42,59 @@ class CustomImageUpload
                 $CustomImageUploadClass = $container->getParameter(self::$customImageUploadClass);
                 if ($object instanceof $CustomImageUploadClass) {
                     $object = $this->createCustomImages($object, 'main', 'MainImageFields', 'productMainImageUploads');
-                    $object = $this->createCustomImages($object, 'gallery', 'ImageGallaryFields', 'productImageGallaryUploads');
+                    $object = $this->updateCdnUrls($object,'CdnPathsMain');
+                    $object = $this->createCustomImages($object, 'gallery', 'ImageGalleryFields', 'productImageGallaryUploads');
+                    $object = $this->updateCdnUrls($object,'CdnPathsGallery');
+
                 }
             }
             
         }
     }
-    
+
+    public function updateCdnUrls($object,$targetField){
+        $allImageFields = $this->getImageFieldsFromConfiguration();
+        $cdnUrlsCollection = new \Pimcore\Model\DataObject\Fieldcollection();
+        foreach ($allImageFields as $field) {
+            $sourceFieldGetter = 'get'.$field;
+            $img = $object->$sourceFieldGetter();
+            if($img instanceof \Pimcore\Model\Asset\Image){
+                $cdnUrlsCollection->add($this->getCdnUrlCollectionItemFromImage($img));
+            } else if($img instanceof \Pimcore\Model\DataObject\Data\ImageGallery){
+                foreach ($img->getItems() as $key => $galleryItem) {
+                   $galleryImage = $galleryItem->getImage();
+                   $cdnUrlsCollection->add($this->getCdnUrlCollectionItemFromImage($galleryImage));
+                }
+            }
+            
+        }
+
+        if(count($cdnUrlsCollection->getItems())){
+            $targetFieldSetter = 'set'.$targetField;
+            $object->$targetFieldSetter($cdnUrlsCollection);    
+        }
+        
+        return $object;
+
+    }
+
+    public function getCdnUrlCollectionItemFromImage($image){
+        $item = new \Pimcore\Model\DataObject\Fieldcollection\Data\CdnPath();
+        $item->setSmall($image->getFullPath());
+        $item->setMedium($image->getFullPath());
+        $item->setLarge($image->getFullPath());
+        return $item;
+    }
+
+    public function getImageFieldsFromConfiguration(){
+        $allImageFields = array(self::$uploadField);
+        $container            = \Pimcore::getContainer();
+        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
+        foreach ($thumbConfig as $field => $thumbnailArray) {
+           $allImageFields[] = $field;
+        }
+        return $allImageFields;
+    }
     
     public function createCustomImages($object, $uploadField, $thumbConfigKey, $parentFolderKey)
     {
@@ -59,7 +105,6 @@ class CustomImageUpload
             self::$parentFolderKey = $parentFolderKey;
             $object                = $this->getConfiguredImages($object);
         }
-        
         return $object;
     }
     
@@ -89,6 +134,52 @@ class CustomImageUpload
         }
         return $object;
     }
+
+    public function createThumbnail($image, $thumbnailName, $object)
+    {
+        $currentImageParent = $image->getParent();
+        $parent             = $this->getParentFolder(self::$parentFolderKey);
+        if ($currentImageParent != $parent) {
+            /* check if current thumbnail image exists or not */
+            $thumbName = $thumbnailName . '-' . $image->getfilename();
+            
+            /* if image already exits, delete the image first and then upload */
+            $thumbPath     = $image->getThumbnail($thumbnailName)->getFileSystemPath();
+            $thumbTreePath = $parent->getFullPath() . '/' . $thumbName;
+            $thumbObj      = \Pimcore\Model\Asset::getByPath($thumbTreePath);
+            if (!$thumbObj) {
+                $thumbObj = new \Pimcore\Model\Asset();
+                $thumbObj->setFilename($thumbName);
+                $thumbObj->setData(file_get_contents($thumbPath));
+                $thumbObj->setParent($parent);
+                $thumbObj->save();
+            }
+            return $thumbObj;
+        }
+        return false;
+    }
+
+    public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail)
+    {
+        if ($uploadedImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
+            $imageCollectionArray = array();
+            foreach ($uploadedImage->getItems() as $key => $galleryItem) {
+                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail, $object);
+                $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
+                $advancedImage->setImage($newImage);
+                $imageCollectionArray[] = $advancedImage;
+            }
+            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
+        } else if ($uploadedImage instanceof \Pimcore\Model\Asset\Image) {
+            /* creating new image as per corresponding thumbnail configuration */
+            $newImage = $this->createThumbnail($uploadedImage, $thumbnail, $object);
+            if ($newImage) {
+                /* saving the image in product's respective main image field */
+                $object->$setter($newImage);
+            }
+        }
+        return $object;
+    }
     
     public function deleteAllThumbails($object, $currentImage)
     {
@@ -112,7 +203,7 @@ class CustomImageUpload
         }
         return $object;
     }
-    
+
     public function getCurrentUploadedImage($currentImage)
     {
         if ($currentImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
@@ -133,56 +224,6 @@ class CustomImageUpload
         }
         return $imageUploadFlag;
     }
-    
-    public function createThumbnail($image, $thumbnailName, $object)
-    {
-        $currentImageParent = $image->getParent();
-        $parent             = $this->getParentFolder(self::$parentFolderKey);
-        if ($currentImageParent != $parent) {
-            /* check if current thumbnail image exists or not */
-            $thumbName = $thumbnailName . '-' . $image->getfilename();
-            
-            /* if image already exits, delete the image first and then upload */
-            $thumbPath     = $image->getThumbnail($thumbnailName)->getFileSystemPath();
-            $thumbTreePath = $parent->getFullPath() . '/' . $thumbName;
-            $thumbObj      = \Pimcore\Model\Asset::getByPath($thumbTreePath);
-            if (!$thumbObj) {
-                $thumbObj = new \Pimcore\Model\Asset();
-                $thumbObj->setFilename($thumbName);
-                $thumbObj->setData(file_get_contents($thumbPath));
-                $thumbObj->setParent($parent);
-                $thumbObj->save();
-            }
-            return $thumbObj;
-        }
-        return false;
-        
-    }
-    
-    
-    public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail)
-    {
-        if ($uploadedImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
-            $imageCollectionArray = array();
-            foreach ($uploadedImage->getItems() as $key => $galleryItem) {
-                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail, $object);
-                $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
-                $advancedImage->setImage($newImage);
-                $imageCollectionArray[] = $advancedImage;
-            }
-            $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
-        } else if ($uploadedImage instanceof \Pimcore\Model\Asset\Image) {
-            /* creating new image as per corresponding thumbnail configuration */
-            $newImage = $this->createThumbnail($uploadedImage, $thumbnail, $object);
-            if ($newImage) {
-                /* saving the image in product's respective main image field */
-                $object->$setter($newImage);
-            }
-        }
-        return $object;
-    }
-    
-    
     
     public function getParentFolder($key)
     {

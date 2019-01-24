@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2019-01-22T11:39:13+01:00
+* Generated at: 2019-01-24T11:51:28+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -16,6 +16,10 @@ Fields Summary:
 - gallery [imageGallery]
 - gallery1 [imageGallery]
 - gallery2 [imageGallery]
+- CdnPathsMain [fieldcollections]
+- CdnPathsMainInheritance [select]
+- CdnPathsGallery [fieldcollections]
+- CdnPathsGalleryInheritance [select]
 - localizedfields [localizedfields]
 -- name [input]
 -- seoname [input]
@@ -58,7 +62,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Product',
    'description' => '',
    'creationDate' => 1366282442,
-   'modificationDate' => 1548153553,
+   'modificationDate' => 1548327088,
    'userOwner' => 1,
    'userModification' => 19,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',
@@ -457,6 +461,167 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'locked' => false,
           )),
           1 => 
+          Pimcore\Model\DataObject\ClassDefinition\Layout\Panel::__set_state(array(
+             'fieldtype' => 'panel',
+             'labelWidth' => 100,
+             'layout' => NULL,
+             'name' => 'CDN',
+             'type' => NULL,
+             'region' => NULL,
+             'title' => 'CDN',
+             'width' => NULL,
+             'height' => NULL,
+             'collapsible' => false,
+             'collapsed' => false,
+             'bodyStyle' => '',
+             'datatype' => 'layout',
+             'permissions' => NULL,
+             'childs' => 
+            array (
+              0 => 
+              Pimcore\Model\DataObject\ClassDefinition\Data\Fieldcollections::__set_state(array(
+                 'fieldtype' => 'fieldcollections',
+                 'phpdocType' => '\\Pimcore\\Model\\DataObject\\Fieldcollection',
+                 'allowedTypes' => 
+                array (
+                  0 => 'CdnPath',
+                ),
+                 'lazyLoading' => true,
+                 'maxItems' => '',
+                 'disallowAddRemove' => false,
+                 'disallowReorder' => false,
+                 'collapsed' => false,
+                 'collapsible' => false,
+                 'name' => 'CdnPathsMain',
+                 'title' => 'CdnPaths of Main',
+                 'tooltip' => '',
+                 'mandatory' => false,
+                 'noteditable' => false,
+                 'index' => false,
+                 'locked' => false,
+                 'style' => '',
+                 'permissions' => NULL,
+                 'datatype' => 'data',
+                 'columnType' => NULL,
+                 'queryColumnType' => NULL,
+                 'relationType' => false,
+                 'invisible' => false,
+                 'visibleGridView' => false,
+                 'visibleSearch' => false,
+              )),
+              1 => 
+              Pimcore\Model\DataObject\ClassDefinition\Data\Select::__set_state(array(
+                 'fieldtype' => 'select',
+                 'options' => 
+                array (
+                  0 => 
+                  array (
+                    'key' => 'Yes',
+                    'value' => 'true',
+                  ),
+                  1 => 
+                  array (
+                    'key' => 'No',
+                    'value' => 'false',
+                  ),
+                ),
+                 'width' => 120,
+                 'defaultValue' => '',
+                 'optionsProviderClass' => '',
+                 'optionsProviderData' => '',
+                 'queryColumnType' => 'varchar',
+                 'columnType' => 'varchar',
+                 'columnLength' => 190,
+                 'phpdocType' => 'string',
+                 'name' => 'CdnPathsMainInheritance',
+                 'title' => 'Cdn Paths Inheritance (Main)',
+                 'tooltip' => '',
+                 'mandatory' => false,
+                 'noteditable' => false,
+                 'index' => false,
+                 'locked' => false,
+                 'style' => '',
+                 'permissions' => NULL,
+                 'datatype' => 'data',
+                 'relationType' => false,
+                 'invisible' => false,
+                 'visibleGridView' => false,
+                 'visibleSearch' => false,
+              )),
+              2 => 
+              Pimcore\Model\DataObject\ClassDefinition\Data\Fieldcollections::__set_state(array(
+                 'fieldtype' => 'fieldcollections',
+                 'phpdocType' => '\\Pimcore\\Model\\DataObject\\Fieldcollection',
+                 'allowedTypes' => 
+                array (
+                  0 => 'CdnPath',
+                ),
+                 'lazyLoading' => true,
+                 'maxItems' => '',
+                 'disallowAddRemove' => false,
+                 'disallowReorder' => false,
+                 'collapsed' => false,
+                 'collapsible' => false,
+                 'name' => 'CdnPathsGallery',
+                 'title' => 'Cdn Paths of Gallery',
+                 'tooltip' => '',
+                 'mandatory' => false,
+                 'noteditable' => false,
+                 'index' => false,
+                 'locked' => NULL,
+                 'style' => '',
+                 'permissions' => NULL,
+                 'datatype' => 'data',
+                 'columnType' => NULL,
+                 'queryColumnType' => NULL,
+                 'relationType' => false,
+                 'invisible' => false,
+                 'visibleGridView' => false,
+                 'visibleSearch' => false,
+              )),
+              3 => 
+              Pimcore\Model\DataObject\ClassDefinition\Data\Select::__set_state(array(
+                 'fieldtype' => 'select',
+                 'options' => 
+                array (
+                  0 => 
+                  array (
+                    'key' => 'Yes',
+                    'value' => 'true',
+                  ),
+                  1 => 
+                  array (
+                    'key' => 'No',
+                    'value' => 'false',
+                  ),
+                ),
+                 'width' => 120,
+                 'defaultValue' => '',
+                 'optionsProviderClass' => '',
+                 'optionsProviderData' => '',
+                 'queryColumnType' => 'varchar',
+                 'columnType' => 'varchar',
+                 'columnLength' => 190,
+                 'phpdocType' => 'string',
+                 'name' => 'CdnPathsGalleryInheritance',
+                 'title' => 'Cdn Paths Inheritance (Gallery)',
+                 'tooltip' => '',
+                 'mandatory' => false,
+                 'noteditable' => false,
+                 'index' => false,
+                 'locked' => false,
+                 'style' => '',
+                 'permissions' => NULL,
+                 'datatype' => 'data',
+                 'relationType' => false,
+                 'invisible' => false,
+                 'visibleGridView' => false,
+                 'visibleSearch' => false,
+              )),
+            ),
+             'locked' => false,
+          )),
+          2 => 
           Pimcore\Model\DataObject\ClassDefinition\Data\Localizedfields::__set_state(array(
              'fieldtype' => 'localizedfields',
              'phpdocType' => '\\Pimcore\\Model\\DataObject\\Localizedfield',
@@ -1007,7 +1172,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'visibleGridView' => true,
              'visibleSearch' => true,
           )),
-          2 => 
+          3 => 
           Pimcore\Model\DataObject\ClassDefinition\Layout\Panel::__set_state(array(
              'fieldtype' => 'panel',
              'labelWidth' => 150,
@@ -1363,7 +1528,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             ),
              'locked' => false,
           )),
-          3 => 
+          4 => 
           Pimcore\Model\DataObject\ClassDefinition\Layout\Region::__set_state(array(
              'fieldtype' => 'region',
              'name' => 'Material / Appearance',
@@ -1652,8 +1817,8 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                     ),
                      'width' => 120,
                      'defaultValue' => '',
-                     'optionsProviderClass' => NULL,
-                     'optionsProviderData' => NULL,
+                     'optionsProviderClass' => '',
+                     'optionsProviderData' => '',
                      'queryColumnType' => 'varchar',
                      'columnType' => 'varchar',
                      'columnLength' => 190,
@@ -1683,10 +1848,10 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                     ),
                      'lazyLoading' => false,
                      'maxItems' => '',
-                     'disallowAddRemove' => NULL,
-                     'disallowReorder' => NULL,
-                     'collapsed' => NULL,
-                     'collapsible' => NULL,
+                     'disallowAddRemove' => false,
+                     'disallowReorder' => false,
+                     'collapsed' => false,
+                     'collapsible' => false,
                      'name' => 'images',
                      'title' => 'Images',
                      'tooltip' => '',
@@ -1710,7 +1875,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             ),
              'locked' => false,
           )),
-          4 => 
+          5 => 
           Pimcore\Model\DataObject\ClassDefinition\Layout\Panel::__set_state(array(
              'fieldtype' => 'panel',
              'labelWidth' => 100,
@@ -1774,7 +1939,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             ),
              'locked' => false,
           )),
-          5 => 
+          6 => 
           Pimcore\Model\DataObject\ClassDefinition\Layout\Panel::__set_state(array(
              'fieldtype' => 'panel',
              'labelWidth' => 100,
@@ -1828,7 +1993,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             ),
              'locked' => false,
           )),
-          6 => 
+          7 => 
           Pimcore\Model\DataObject\ClassDefinition\Layout\Panel::__set_state(array(
              'fieldtype' => 'panel',
              'labelWidth' => 160,
