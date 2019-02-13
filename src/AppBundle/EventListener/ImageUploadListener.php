@@ -11,23 +11,16 @@
  * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
  * @license    http://www.pimcore.org/license     GPLv3 and PEL
  */
-
-namespace ClassFields\ImageBundle\EventListener;
-
+namespace AppBundle\EventListener;
 use Pimcore\Config;
 use \Pimcore\Model\WebsiteSetting;
 use Pimcore\Event\Model\DataObjectEvent;
-use AppBundle\Model\DefaultProduct;
-
-class CustomImageUpload
+use Pimcore\Model\DataObject\Product; 
+class ImageUploadListener
 {
-    public static $uploadField;
-    
-    public static $thumbConfigKey;
-    
-    public static $parentFolderKey;
-
     public static $customImageUploadClass = 'CustomImageUploadClass';
+
+    public static $cdnPathClass = 'CdnPathClass';
 
     /**
      * @param DataObjectEvent $event
@@ -37,14 +30,12 @@ class CustomImageUpload
         if ($event instanceof DataObjectEvent) {
             /* current product object */
             $object = $event->getObject();
-            $container = \Pimcore::getContainer();
-            if($container->hasParameter(self::$customImageUploadClass)){
-                $CustomImageUploadClass = $container->getParameter(self::$customImageUploadClass);
+            if($this->getContainer()->hasParameter(self::$customImageUploadClass)){
+                $CustomImageUploadClass = $this->getContainer()->getParameter(self::$customImageUploadClass);
                 if ($object instanceof $CustomImageUploadClass) {
-                    $object = $this->createCustomImages($object, 'main', 'MainImageFields', 'productMainImageUploads');
-                    $object = $this->updateCdnUrls($object,'CdnPathsMain');
-                    $object = $this->createCustomImages($object, 'gallery', 'ImageGalleryFields', 'productImageGallaryUploads');
-                    $object = $this->updateCdnUrls($object,'CdnPathsGallery');
+                    $object = $this->createCustomImages($object, $this->getContainer()->getParameter('MainImageUploadField'), 'MainImageFields', 'productMainImageUploads');
+                    $object = $this->createCustomImages($object, $this->getContainer()->getParameter('ImageGalleryUploadField'), 'ImageGalleryFields', 'productImageGalleryUploads');
+                    $object->update(true);
 
                 }
             }
@@ -52,8 +43,28 @@ class CustomImageUpload
         }
     }
 
-    public function updateCdnUrls($object,$targetField){
-        $allImageFields = $this->getImageFieldsFromConfiguration();
+    /**
+     * @param DataObjectEvent $event
+     */
+    public function onObjectPostUpdate(DataObjectEvent $event)
+    {
+        if ($event instanceof DataObjectEvent) {
+            /* current product object */
+            $object = $event->getObject();
+            if($this->getContainer()->hasParameter(self::$customImageUploadClass)){
+                $CustomImageUploadClass = $this->getContainer()->getParameter(self::$customImageUploadClass);
+                if ($object instanceof $CustomImageUploadClass) {
+                    $object = $this->updateCdnUrls($object,'CdnPathsMain',$this->getContainer()->getParameter('MainImageUploadField'), 'MainImageFields');
+                    $object = $this->updateCdnUrls($object,'CdnPathsGallery',$this->getContainer()->getParameter('ImageGalleryUploadField'), 'ImageGalleryFields');
+                }
+            }
+            
+        }
+        $object->update(true);
+    }
+
+    public function updateCdnUrls($object,$targetField, $uploadField, $thumbConfigKey){
+        $allImageFields = $this->getImageFieldsFromConfiguration($uploadField, $thumbConfigKey);
         $cdnUrlsCollection = new \Pimcore\Model\DataObject\Fieldcollection();
         foreach ($allImageFields as $field) {
             $sourceFieldGetter = 'get'.$field;
@@ -68,10 +79,12 @@ class CustomImageUpload
             }
             
         }
-
+        $targetFieldSetter = 'set'.$targetField;
         if(count($cdnUrlsCollection->getItems())){
-            $targetFieldSetter = 'set'.$targetField;
             $object->$targetFieldSetter($cdnUrlsCollection);    
+            $targetFieldGetter = 'get'.$targetField;
+        } else {
+            $object->$targetFieldSetter(null);
         }
         
         return $object;
@@ -79,17 +92,22 @@ class CustomImageUpload
     }
 
     public function getCdnUrlCollectionItemFromImage($image){
-        $item = new \Pimcore\Model\DataObject\Fieldcollection\Data\CdnPath();
-        $item->setSmall($image->getFullPath());
-        $item->setMedium($image->getFullPath());
-        $item->setLarge($image->getFullPath());
+        //$cdnBaseUrl = 'https://'.AKAMAI_HOST.'/'.AKAMAI_CP_CODE.str_replace('akm://','/',PIMCORE_ASSET_DIRECTORY);
+        $cdnBaseUrl = 'https://abc';
+        $cdnPathClass = $this->getContainer()->getParameter(self::$cdnPathClass);
+        $item = new $cdnPathClass();
+        $cdnPathsConfig = $this->getContainer()->getParameter('CdnPathFields');
+        foreach($cdnPathsConfig as $cdnField => $thumbnailArray){
+            $setter = 'set'.$cdnField;
+            $thumbnailName = $thumbnailArray['thumbnail'];
+            $item->$setter($cdnBaseUrl.$image->getThumbnail($thumbnailName)->getPath());
+        }
         return $item;
     }
 
-    public function getImageFieldsFromConfiguration(){
-        $allImageFields = array(self::$uploadField);
-        $container            = \Pimcore::getContainer();
-        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
+    public function getImageFieldsFromConfiguration($uploadField, $thumbConfigKey){
+        $allImageFields = array($uploadField);
+        $thumbConfig          = $this->getContainer()->getParameter($thumbConfigKey);
         foreach ($thumbConfig as $field => $thumbnailArray) {
            $allImageFields[] = $field;
         }
@@ -98,47 +116,43 @@ class CustomImageUpload
     
     public function createCustomImages($object, $uploadField, $thumbConfigKey, $parentFolderKey)
     {
-        $container = \Pimcore::getContainer();
-        if ($container->hasParameter($thumbConfigKey)) {
-            self::$uploadField     = $uploadField;
-            self::$thumbConfigKey  = $thumbConfigKey;
-            self::$parentFolderKey = $parentFolderKey;
-            $object                = $this->getConfiguredImages($object);
+        if ($this->getContainer()->hasParameter($thumbConfigKey)) {
+            $object                = $this->getConfiguredImages($object, $uploadField, $thumbConfigKey, $parentFolderKey);
         }
+    $object->update(true);
         return $object;
     }
     
-    public function getConfiguredImages($object)
+    public function getConfiguredImages($object, $uploadField, $thumbConfigKey, $parentFolderKey)
     {
-        $uploadFieldGetter = 'get' . self::$uploadField;
+        $uploadFieldGetter = 'get' . $uploadField;
         $currentImage      = $object->$uploadFieldGetter();
         if ($this->isImageUploadedNotEmpty($currentImage)) {
-            $object = $this->createAllThumbnails($object, $currentImage);
+            $object = $this->createAllThumbnails($object, $currentImage,$thumbConfigKey, $parentFolderKey);
         } else {
-            $object = $this->deleteAllThumbails($object, $currentImage);
+            $object = $this->deleteAllThumbails($object, $currentImage, $thumbConfigKey);
         }
         return $object;
     }
     
-    public function createAllThumbnails($object, $currentImage)
+    public function createAllThumbnails($object, $currentImage, $thumbConfigKey, $parentFolderKey)
     {
-        $container            = \Pimcore::getContainer();
-        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
+        $thumbConfig          = $this->getContainer()->getParameter($thumbConfigKey);
         $currentUploadedImage = $this->getCurrentUploadedImage($currentImage);
         foreach ($thumbConfig as $field => $thumbnailArray) {
             $thumbnail = $thumbnailArray['thumbnail'];
             $setter    = 'set' . $field;
             if ($currentUploadedImage->getThumbnail($thumbnail)) {
-                $object = $this->createAndSetCustomImages($currentImage, $object, $setter, $thumbnail);
+                $object = $this->createAndSetCustomImages($currentImage, $object, $setter, $thumbnail, $parentFolderKey);
             }
         }
         return $object;
     }
 
-    public function createThumbnail($image, $thumbnailName, $object)
+    public function createThumbnail($image, $thumbnailName, $object, $parentFolderKey)
     {
         $currentImageParent = $image->getParent();
-        $parent             = $this->getParentFolder(self::$parentFolderKey);
+        $parent             = $this->getParentFolder($parentFolderKey);
         if ($currentImageParent != $parent) {
             /* check if current thumbnail image exists or not */
             $thumbName = $thumbnailName . '-' . $image->getfilename();
@@ -148,7 +162,7 @@ class CustomImageUpload
             $thumbTreePath = $parent->getFullPath() . '/' . $thumbName;
             $thumbObj      = \Pimcore\Model\Asset::getByPath($thumbTreePath);
             if (!$thumbObj) {
-                $thumbObj = new \Pimcore\Model\Asset();
+                $thumbObj = new \Pimcore\Model\Asset\Image();
                 $thumbObj->setFilename($thumbName);
                 $thumbObj->setData(file_get_contents($thumbPath));
                 $thumbObj->setParent($parent);
@@ -159,12 +173,12 @@ class CustomImageUpload
         return false;
     }
 
-    public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail)
+    public function createAndSetCustomImages($uploadedImage, $object, $setter, $thumbnail, $parentFolderKey)
     {
         if ($uploadedImage instanceof \Pimcore\Model\DataObject\Data\ImageGallery) {
             $imageCollectionArray = array();
             foreach ($uploadedImage->getItems() as $key => $galleryItem) {
-                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail, $object);
+                $newImage      = $this->createThumbnail($galleryItem->getImage(), $thumbnail, $object, $parentFolderKey);
                 $advancedImage = new \Pimcore\Model\DataObject\Data\Hotspotimage();
                 $advancedImage->setImage($newImage);
                 $imageCollectionArray[] = $advancedImage;
@@ -172,7 +186,7 @@ class CustomImageUpload
             $object->$setter(new \Pimcore\Model\DataObject\Data\ImageGallery($imageCollectionArray));
         } else if ($uploadedImage instanceof \Pimcore\Model\Asset\Image) {
             /* creating new image as per corresponding thumbnail configuration */
-            $newImage = $this->createThumbnail($uploadedImage, $thumbnail, $object);
+            $newImage = $this->createThumbnail($uploadedImage, $thumbnail, $object, $parentFolderKey);
             if ($newImage) {
                 /* saving the image in product's respective main image field */
                 $object->$setter($newImage);
@@ -181,10 +195,9 @@ class CustomImageUpload
         return $object;
     }
     
-    public function deleteAllThumbails($object, $currentImage)
+    public function deleteAllThumbails($object, $currentImage, $thumbConfigKey)
     {
-        $container            = \Pimcore::getContainer();
-        $thumbConfig          = $container->getParameter(self::$thumbConfigKey);
+        $thumbConfig          = $this->getContainer()->getParameter($thumbConfigKey);
         foreach ($thumbConfig as $field => $thumbnailArray) {
             $object = $this->deleteThumbnail($currentImage, $object, $field);
         }
@@ -233,4 +246,13 @@ class CustomImageUpload
         }
         return $uploadFolder;
     }
+
+
+    public function getContainer()
+    {
+        $container = \Pimcore::getContainer();
+        return $container;
+    }
+
+
 }

@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2019-01-24T11:51:28+01:00
+* Generated at: 2019-02-12T11:50:18+01:00
 * Inheritance: yes
 * Variants: yes
 * Changed by: admin (19)
@@ -62,7 +62,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Product',
    'description' => '',
    'creationDate' => 1366282442,
-   'modificationDate' => 1548327088,
+   'modificationDate' => 1549968618,
    'userOwner' => 1,
    'userModification' => 19,
    'parentClass' => '\\Pimcore\\Bundle\\EcommerceFrameworkBundle\\Model\\AbstractProduct',
@@ -568,7 +568,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
                  'mandatory' => false,
                  'noteditable' => false,
                  'index' => false,
-                 'locked' => NULL,
+                 'locked' => false,
                  'style' => '',
                  'permissions' => NULL,
                  'datatype' => 'data',

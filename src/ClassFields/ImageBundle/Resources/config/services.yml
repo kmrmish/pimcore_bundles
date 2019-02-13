@@ -23,13 +23,17 @@ services:
 #            - "plain_value"
 #            - "%parameter%"
     # Example event listener for objects
-    ClassFields\ImageBundle\EventListener\CustomImageUpload:
+    ClassFields\ImageBundle\EventListener\ImageUploadListener:
         tags:
             - { name: kernel.event_listener, event: pimcore.dataobject.preUpdate, method: onObjectPreUpdate }
+            - { name: kernel.event_listener, event: pimcore.dataobject.postUpdate, method: onObjectPostUpdate }
 
 
 parameters:
     CustomImageUploadClass : 'AppBundle\Model\DefaultProduct'
+    CdnPathClass : '\Pimcore\Model\DataObject\Fieldcollection\Data\CdnPath'
+    MainImageUploadField : 'main'
+    ImageGalleryUploadField : 'gallery'
     MainImageFields:
         main1:
             thumbnail: main1
@@ -42,3 +46,10 @@ parameters:
             thumbnail: gallery1
         gallery2:
             thumbnail: gallery2
+    CdnPathFields:
+        small:
+            thumbnail: main1
+        medium:
+            thumbnail: main2
+        large:
+            thumbnail: main3

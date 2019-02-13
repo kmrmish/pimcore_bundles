@@ -49,12 +49,12 @@ return [
     ],
     8 => [
         "id" => 8,
-        "name" => "productImageGallaryUploads",
+        "name" => "productImageGalleryUploads",
         "language" => "",
         "type" => "asset",
         "data" => 4893,
         "siteId" => 0,
         "creationDate" => 0,
-        "modificationDate" => 1546431872
+        "modificationDate" => 1549966347
     ]
 ];

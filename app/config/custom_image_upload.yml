@@ -1,5 +1,8 @@
 parameters:
     CustomImageUploadClass : 'AppBundle\Model\DefaultProduct'
+    CdnPathClass : '\Pimcore\Model\DataObject\Fieldcollection\Data\CdnPath'
+    MainImageUploadField : 'main'
+    ImageGalleryUploadField : 'gallery'
     MainImageFields:
         main1:
             thumbnail: main1
@@ -12,3 +15,10 @@ parameters:
             thumbnail: gallery1
         gallery2:
             thumbnail: gallery2
+    CdnPathFields:
+        small:
+            thumbnail: main1
+        medium:
+            thumbnail: main2
+        large:
+            thumbnail: main3

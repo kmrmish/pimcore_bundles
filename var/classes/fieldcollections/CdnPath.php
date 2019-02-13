@@ -1,7 +1,7 @@
 <?php 
 
 /** 
-* Generated at: 2019-01-24T07:52:56+01:00
+* Generated at: 2019-02-13T07:51:54+01:00
 * IP: 127.0.0.1
 
 
@@ -59,7 +59,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'width' => NULL,
              'queryColumnType' => 'varchar',
              'columnType' => 'varchar',
-             'columnLength' => 190,
+             'columnLength' => 300,
              'phpdocType' => 'string',
              'regex' => '',
              'unique' => false,
@@ -69,7 +69,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'mandatory' => false,
              'noteditable' => false,
              'index' => false,
-             'locked' => NULL,
+             'locked' => false,
              'style' => '',
              'permissions' => NULL,
              'datatype' => 'data',
@@ -84,7 +84,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'width' => NULL,
              'queryColumnType' => 'varchar',
              'columnType' => 'varchar',
-             'columnLength' => 190,
+             'columnLength' => 300,
              'phpdocType' => 'string',
              'regex' => '',
              'unique' => false,
@@ -94,7 +94,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'mandatory' => false,
              'noteditable' => false,
              'index' => false,
-             'locked' => NULL,
+             'locked' => false,
              'style' => '',
              'permissions' => NULL,
              'datatype' => 'data',
@@ -109,7 +109,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'width' => NULL,
              'queryColumnType' => 'varchar',
              'columnType' => 'varchar',
-             'columnLength' => 190,
+             'columnLength' => 300,
              'phpdocType' => 'string',
              'regex' => '',
              'unique' => false,
@@ -119,7 +119,7 @@ return Pimcore\Model\DataObject\Fieldcollection\Definition::__set_state(array(
              'mandatory' => false,
              'noteditable' => false,
              'index' => false,
-             'locked' => NULL,
+             'locked' => false,
              'style' => '',
              'permissions' => NULL,
              'datatype' => 'data',
